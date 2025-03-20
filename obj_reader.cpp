@@ -1,3 +1,12 @@
+#include <fstream>
+#include <iostream>
+#include <cstring>
+#include <string>
+#include <cstring>
+#include <vector>
+#include <sstream>
+#include <random>
+#include "tgaimage.h"
 
 std::vector<std::vector<std::vector<int>>> read_obj_file(const std::string filename){
     // Пример вводных данных:
