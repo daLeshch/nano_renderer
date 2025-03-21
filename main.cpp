@@ -10,17 +10,10 @@
 constexpr int width = 800;
 constexpr int height = 800;
 
-constexpr TGAColor white = { 255, 255, 255, 255};
-constexpr TGAColor green = { 0, 255, 0, 255};
-constexpr TGAColor red = { 0, 0, 255, 255};
-constexpr TGAColor blue = { 255, 128, 64, 255};
-constexpr TGAColor yellow = { 0, 200, 255, 255};
-
 Model3D *model = NULL;
 
 int main(int argc, char** argv) {
-    std::string file = ("D:\\coding_stuff\\tinyrenderer\\obj\\diablo3_pose\\diablo3_pose.obj");
-    
+    std::string file = ("diablo3_pose.obj");
     if (4 == argc){
         int w;
         int h;
@@ -40,7 +33,7 @@ int main(int argc, char** argv) {
     Renderer renderer;
 
     for (const auto& face : model->render_obj){
-        int count = face.size();
+        // int count = face.size();
         // std::cout << "Face vector size:  " << count << "\n";
 
         int ax = (face[0].x + 1.) * width/2;
@@ -59,9 +52,10 @@ int main(int argc, char** argv) {
         normal.normalize();
         float intensity = normal * light_dir;
         if (intensity > 0) {
+            // std::cout << "Finished code\n";
             TGAColor actual_color = {intensity*255, intensity*255, intensity*255, 255};
             renderer.triangle(ax, ay, bx, by, cx, cy, framebuffer, actual_color);
-        }
+        } 
 
         // std::vector<TGAColor> rand = {white, red, green, blue, yellow};
         // std::random_device random_dev;
@@ -81,7 +75,8 @@ int main(int argc, char** argv) {
         // std::cout << "Face " << ax << " drawed\n";
     }
     
-    framebuffer.write_tga_file("framebuffer.tga");
+    framebuffer.write_tga_file("nano_render_result.tga");
+    std::cout << "Finished code\n";
 }
 
 
