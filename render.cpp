@@ -1,22 +1,17 @@
-#include <fstream>
 #include <iostream>
-#include <cstring>
-#include <string>
-#include <cstring>
 #include <vector>
-#include <sstream>
-#include <random>
 #include "tgaimage.h"
-#include "geometry.h"
-#include "model.cpp"
+#include "render.h"
 
 
-double square(int ax, int ay, int bx, int by, int cx, int cy) {
-    double sq = std::abs((bx - ax) * (cy - ay) - (cx - ax) * (by - ay)) * 0.5;
-    return sq;
+Renderer::Renderer(){
 }
 
-void triangle( int ax, int ay, int bx, int by, int cx, int cy, TGAImage &framebuffer, TGAColor color) {
+Renderer::~Renderer(){
+}
+
+void Renderer::triangle(int ax, int ay, int bx, int by, int cx, int cy, TGAImage &framebuffer, TGAColor color)
+{
     int bb_min_x = std::min(std::min(ax, bx), cx);
     int bb_min_y = std::min(std::min(ay, by), cy);
     int bb_max_x = std::max(std::max(ax, bx), cx);
@@ -36,10 +31,10 @@ void triangle( int ax, int ay, int bx, int by, int cx, int cy, TGAImage &framebu
             }
         }
     }
-
 }
 
-void line(int ax, int ay, int bx, int by, TGAImage &framebuffer, TGAColor color) {
+void Renderer::line(int ax, int ay, int bx, int by, TGAImage &framebuffer, TGAColor color)
+{
     bool steep = std::abs(ax - bx) < std::abs(ay - by);
     if (steep) {
         std::swap(ax, ay);
@@ -51,13 +46,18 @@ void line(int ax, int ay, int bx, int by, TGAImage &framebuffer, TGAColor color)
     }
 
     float y = ay;
-    for (int x = ax; x <= bx; x ++){
+    for (int x = ax; x <= bx; x++) {
         if (steep) {
             framebuffer.set(y, x, color);
-        }
-        else {
+        } else {
             framebuffer.set(x, y, color);
         }
         y += (by - ay) / static_cast<float>(bx - ax);
     }
 }
+
+double Renderer::square(int ax, int ay, int bx, int by, int cx, int cy)
+{
+    return std::abs((bx - ax) * (cy - ay) - (cx - ax) * (by - ay)) * 0.5;
+}
+
