@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="D:\coding_stuff\nano_renderer\tgaimage.cpp">
+    <ClCompile Include="D:\coding_stuff\nano_renderer\lib\tgaimage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="D:\coding_stuff\nano_renderer\main.cpp">
@@ -15,7 +15,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="D:\coding_stuff\nano_renderer\tgaimage.h">
+    <ClInclude Include="D:\coding_stuff\nano_renderer\lib\tgaimage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="D:\coding_stuff\nano_renderer\model.h">
@@ -24,7 +24,7 @@
     <ClInclude Include="D:\coding_stuff\nano_renderer\render.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\coding_stuff\nano_renderer\geometry.h">
+    <ClInclude Include="D:\coding_stuff\nano_renderer\templates.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

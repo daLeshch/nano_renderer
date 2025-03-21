@@ -1,8 +1,8 @@
-#ifndef GEOMETRY_H
-#define GEOMETRY_H
+#ifndef TEMPLATES_H
+#define TEMPLATES_H
 
 #include <cmath>
-#include "tgaimage.h"
+#include "lib/tgaimage.h"
 
 /// @brief 
 /// @tparam t 
@@ -30,4 +30,4 @@ struct Coordinates3 {
 typedef Coordinates3<float> Coordinates3f;
 typedef Coordinates3<int>   Coordinates3i;
 
-#endif // GEOMETRY_H
+#endif // TEMPLATES_H

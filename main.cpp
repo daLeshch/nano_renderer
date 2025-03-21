@@ -1,15 +1,15 @@
 #include <cstring>
 #include <string>
 #include <random>
-#include "tgaimage.h"
-#include "geometry.h"
+#include "lib/tgaimage.h"
+#include "templates.h"
 #include "model.h"
 #include "render.h"
  
-
 constexpr int width = 800;
 constexpr int height = 800;
 
+TGAImage image(width, height, TGAImage::RGB);
 Model3D *model = NULL;
 
 int main(int argc, char** argv) {
@@ -28,14 +28,10 @@ int main(int argc, char** argv) {
         model = new Model3D(file, width, height);
         std::cout << "Opened default file with default picture size settings!" << "\n";
     }
-    TGAImage framebuffer(width, height, TGAImage::RGB);
 
     Renderer renderer;
 
     for (const auto& face : model->render_obj){
-        // int count = face.size();
-        // std::cout << "Face vector size:  " << count << "\n";
-
         int ax = (face[0].x + 1.) * width/2;
         int ay = (face[0].y + 1.) * width/2;
 
@@ -52,31 +48,13 @@ int main(int argc, char** argv) {
         normal.normalize();
         float intensity = normal * light_dir;
         if (intensity > 0) {
-            // std::cout << "Finished code\n";
             TGAColor actual_color = {intensity*255, intensity*255, intensity*255, 255};
-            renderer.triangle(ax, ay, bx, by, cx, cy, framebuffer, actual_color);
+            renderer.triangle(ax, ay, bx, by, cx, cy, image, actual_color);
         } 
-
-        // std::vector<TGAColor> rand = {white, red, green, blue, yellow};
-        // std::random_device random_dev;
-        // std::mt19937 engine{random_dev()};
-        // std::uniform_int_distribution<int> dist(0, rand.size() - 1);
-
-        // TGAColor random_color = rand[dist(engine)];
-
-        // renderer.triangle(ax, ay, bx, by, cx, cy, framebuffer, random_color);
-        // renderer.line(ax, ay, bx, by, framebuffer, red);
-        // renderer.line(ax, ay, cx, cy, framebuffer, red);
-        // renderer.line(bx, by, cx, cy, framebuffer, red);
-        
-        // framebuffer.set(ax, ay, white);
-        // framebuffer.set(bx, by, white);
-        // framebuffer.set(cx, cy, white);
-        // std::cout << "Face " << ax << " drawed\n";
     }
     
-    framebuffer.write_tga_file("nano_render_result.tga");
-    std::cout << "Finished code\n";
+    image.write_tga_file("nano_render_result.tga");
+    std::cout << "Render finished!\n";
 }
 
 

@@ -1,6 +1,6 @@
 #include <iostream>
 #include <vector>
-#include "tgaimage.h"
+#include "lib/tgaimage.h"
 #include "render.h"
 
 
@@ -18,7 +18,7 @@ double Renderer::barycentric(int ax, int ay, int bx, int by, int cx, int cy, int
     double summ = ABP_sq + ACP_sq + BCP_sq;
     return std::abs(summ - triangle_sq);
 }
-void Renderer::triangle(int ax, int ay, int bx, int by, int cx, int cy, TGAImage &framebuffer, TGAColor color)
+void Renderer::triangle(int ax, int ay, int bx, int by, int cx, int cy, TGAImage &image, TGAColor color)
 {
     int bb_min_x = std::min(std::min(ax, bx), cx);
     int bb_min_y = std::min(std::min(ay, by), cy);
@@ -32,13 +32,13 @@ void Renderer::triangle(int ax, int ay, int bx, int by, int cx, int cy, TGAImage
         for (int y = bb_min_y; y <= bb_max_y; y++) {
             double bary = barycentric(ax, ay, bx, by, cx, cy, x, y);
             if (bary < 1e-9) {
-                framebuffer.set(x, y, color);
+                image.set(x, y, color);
             }
         }
     }
 }
 
-void Renderer::line(int ax, int ay, int bx, int by, TGAImage &framebuffer, TGAColor color)
+void Renderer::line(int ax, int ay, int bx, int by, TGAImage &image, TGAColor color)
 {
     bool steep = std::abs(ax - bx) < std::abs(ay - by);
     if (steep) {
@@ -53,9 +53,9 @@ void Renderer::line(int ax, int ay, int bx, int by, TGAImage &framebuffer, TGACo
     float y = ay;
     for (int x = ax; x <= bx; x++) {
         if (steep) {
-            framebuffer.set(y, x, color);
+            image.set(y, x, color);
         } else {
-            framebuffer.set(x, y, color);
+            image.set(x, y, color);
         }
         y += (by - ay) / static_cast<float>(bx - ax);
     }

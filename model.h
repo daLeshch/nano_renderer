@@ -2,7 +2,7 @@
 #define MODEL3D_H
 
 #include <vector>
-#include "geometry.h"
+#include "templates.h"
 
 class Model3D {
     private:
@@ -13,7 +13,6 @@ class Model3D {
         std::vector<std::vector<Coordinates3f>> render_obj;
         Model3D(const std::string &filename, const int &width, const int &height);
         ~Model3D();
-        Coordinates3f world_coords(int idx);
 };
 
 
