@@ -323,6 +323,11 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="D:\coding_stuff\nano_renderer\tgaimage.cpp" />
     <ClInclude Include="D:\coding_stuff\nano_renderer\tgaimage.h" />
     <ClCompile Include="D:\coding_stuff\nano_renderer\main.cpp" />
+    <ClInclude Include="D:\coding_stuff\nano_renderer\model.h" />
+    <ClCompile Include="D:\coding_stuff\nano_renderer\model.cpp" />
+    <ClInclude Include="D:\coding_stuff\nano_renderer\render.h" />
+    <ClCompile Include="D:\coding_stuff\nano_renderer\render.cpp" />
+    <ClInclude Include="D:\coding_stuff\nano_renderer\geometry.h" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

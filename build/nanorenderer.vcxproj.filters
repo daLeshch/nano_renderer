@@ -7,9 +7,24 @@
     <ClCompile Include="D:\coding_stuff\nano_renderer\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="D:\coding_stuff\nano_renderer\model.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\coding_stuff\nano_renderer\render.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="D:\coding_stuff\nano_renderer\tgaimage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\coding_stuff\nano_renderer\model.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\coding_stuff\nano_renderer\render.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\coding_stuff\nano_renderer\geometry.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
