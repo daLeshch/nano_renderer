@@ -11,17 +11,17 @@ Renderer::~Renderer()
 {
 }
 
-auto Renderer::barycentric(int ax, int ay, int bx, int by, int cx, int cy, int px, int py) -> Coordinates3d
+auto Renderer::barycentric(int ax, int ay, int bx, int by, int cx, int cy, int px, int py) -> vec3d
 {
     double triangle_sq = square(ax, ay, bx, by, cx, cy);
     if (std::abs(triangle_sq) < 1e-6)
-        return Coordinates3d(-1, -1, -1);
+        return vec3d(-1, -1, -1);
 
     double alpha = square(px, py, bx, by, cx, cy ) / triangle_sq;
     double beta = square(ax, ay, px, py, cx, cy ) / triangle_sq;
     double gamma = square(ax, ay, bx, by, px, py )  / triangle_sq;
 
-    return Coordinates3d(alpha, beta, gamma);
+    return vec3d(alpha, beta, gamma);
 }
 
 void Renderer::triangle(int ax, int ay, int az, int bx, int by, int bz, int cx, int cy, int cz, TGAImage &image, TGAColor color, Zbuffer &zbuffer)
@@ -41,7 +41,7 @@ void Renderer::triangle(int ax, int ay, int az, int bx, int by, int bz, int cx, 
         {
             auto bary = barycentric(ax, ay, bx, by, cx, cy, x, y);
 
-            auto z = bary[0] * az + bary[1] * bz + bary[2] * cz;
+            unsigned char z = static_cast<unsigned char>(bary[0] * az + bary[1] * bz + bary[2] * cz);
 
             if (bary[0] < 0 || bary[1] < 0 || bary[2] < 0)
                 continue;

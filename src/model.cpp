@@ -8,7 +8,7 @@
 class Model3D
 {
 public:
-    std::vector<std::vector<Coordinates3f>> render_obj;
+    std::vector<std::vector<vec3f>> render_obj;
     Model3D(const std::string &filename, const int &width, const int &height) : vertexes_(), faces_()
     {
         std::string s;
@@ -29,7 +29,7 @@ public:
                 float x, y, z;
                 while (vtx_data >> x >> y >> z)
                 {
-                    Coordinates3f vtx_coord(x, y, z);
+                    vec3f vtx_coord(x, y, z);
                     vertexes_.push_back(vtx_coord);
                 }
             }
@@ -50,7 +50,7 @@ public:
 
         for (const auto &face : faces_)
         {
-            std::vector<Coordinates3f> new_face;
+            std::vector<vec3f> new_face;
             for (const auto &vtx : face)
             {
                 new_face.push_back(vertexes_[vtx - 1]);
@@ -65,7 +65,7 @@ public:
     };
 
 private:
-    std::vector<Coordinates3f> vertexes_;
-    std::vector<Coordinates3f> world_vertexes_;
+    std::vector<vec3f> vertexes_;
+    std::vector<vec3f> world_vertexes_;
     std::vector<std::vector<int>> faces_;
 };

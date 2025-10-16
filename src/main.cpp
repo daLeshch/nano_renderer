@@ -52,7 +52,7 @@ int main(int argc, char **argv)
     Renderer renderer;
 
     for (const auto &face : model->render_obj)
-    {
+    {   
         int ax = (face[0].x + 1.) * width / 2;
         int ay = (face[0].y + 1.) * height / 2;
         int az = (face[0].z + 1.) * 255 / 2;
@@ -65,10 +65,10 @@ int main(int argc, char **argv)
         int cy = (face[2].y + 1.) * height / 2;
         int cz = (face[2].z + 1.) * 255 / 2;
 
-        Coordinates3f light_dir(0, 0, -1);
+        vec3f light_dir(0, 0, -1);
         light_dir.normalize();
 
-        Coordinates3f normal = (face[2] - face[0]) ^ (face[1] - face[0]);
+        vec3f normal = (face[2] - face[0]) ^ (face[1] - face[0]);
         normal.normalize();
         float intensity = normal * light_dir;
 
@@ -81,4 +81,5 @@ int main(int argc, char **argv)
 
     image.write_tga_file("nano_render_result.tga");
     std::cout << "Render finished!\n";
+    system("pause");
 }
