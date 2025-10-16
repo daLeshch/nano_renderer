@@ -38,7 +38,7 @@ public:
     
     void triangle(int ax, int ay, int az, int bx, int by, int bz, int cx, int cy, int cz, TGAImage &image, TGAColor color, Zbuffer &zbuffer);
     void line(int ax, int ay, int bx, int by, TGAImage &image, TGAColor color);
-    static auto barycentric(int ax, int ay, int bx, int by, int cx, int cy, int px, int py) -> Coordinates3d;
+    static auto barycentric(int ax, int ay, int bx, int by, int cx, int cy, int px, int py) -> vec3d;
     
 
 private:
