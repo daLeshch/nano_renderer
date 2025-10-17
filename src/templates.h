@@ -89,6 +89,13 @@ struct vec // Структура для работы с 2D/3D/4D вектора�
         else
             return vec<T, N>(x * f, y * f);
     }
+    inline vec<T, N> operator/(T f) const // Просто деление на число
+    {
+        if constexpr (N >= 3)
+            return vec<T, N>(x / f, y / f, z / f);
+        else
+            return vec<T, N>(x / f, y / f);
+    }
 
     inline T operator*(const vec<T, N> &other) const // А тут скалярное произведение оно же dot product
     { 

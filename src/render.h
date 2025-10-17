@@ -39,6 +39,11 @@ public:
     void triangle(int ax, int ay, int az, int bx, int by, int bz, int cx, int cy, int cz, TGAImage &image, TGAColor color, Zbuffer &zbuffer);
     void line(int ax, int ay, int bx, int by, TGAImage &image, TGAColor color);
     static auto barycentric(int ax, int ay, int bx, int by, int cx, int cy, int px, int py) -> vec3d;
+    auto project();
+    auto rotate();
+    vec3f persp(vec3f face);
+    std::tuple<int,int,int> project(vec3f vert, int width = 800, int height = 800 );
+    float light(vec3f v0, vec3f v1, vec3f v2);
     
 
 private:
