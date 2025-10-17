@@ -41,7 +41,7 @@ void Renderer::triangle(int ax, int ay, int az, int bx, int by, int bz, int cx, 
         {
             auto bary = barycentric(ax, ay, bx, by, cx, cy, x, y);
 
-            auto z = bary[0] * az + bary[1] * bz + bary[2] * cz;
+            unsigned char z = static_cast<unsigned char>(bary[0] * az + bary[1] * bz + bary[2] * cz);
 
             if (bary[0] < 0 || bary[1] < 0 || bary[2] < 0)
                 continue;

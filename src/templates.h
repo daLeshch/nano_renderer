@@ -2,6 +2,7 @@
 #define TEMPLATES_H
 #define _USE_MATH_DEFINES
 
+#include <optional>
 #include <array>
 #include <initializer_list>
 #include <cmath>
@@ -320,7 +321,104 @@ struct Matrix
         return fin;
     };
 
-    //TODO: добавить методы детерменанта, обнуления матрицы, инверсии матрицы
+// Методы для всяких трансформаций
+    double det(){
+        static_assert(rows == cols, "Must be a square matrix!");
+        Matrix<rows, cols, T> mat = *this;
+
+        if (rows == 2) return (mat[0][0] * mat[1][1]) - (mat[1][0] * mat[0][1]); // исключаем случай матрицы 2х2
+
+        double det = 1;
+        T sign = 1;
+
+        for (size_t i=0;i<rows;++i){    //тут индекс пивота. [i] - просто строки, [i][i] - сам пивот
+            if (mat[i][i] == 0) {
+                bool pivot = false;
+                for (size_t c=i+1;c<rows;++c){
+                    if (mat[c][i] != 0) {
+                        std::swap(mat[i], mat[c]);
+                        pivot = true;
+                        sign *= -1;
+                        break;
+                    }
+                }
+                if (!pivot) return 0;
+            }
+            for (size_t j=i+1;j<rows;++j){  //тут индекс строки под пивотом [j] - просто строки ниже, [j][i] -  точка под пивотом
+
+                double coef = mat[j][i]/mat[i][i];
+                
+                for (size_t k=i;k<rows;k++){ // а вот тут уже обход в сторону
+                    mat[j][k] -= mat[i][k]*coef;
+                }
+            }
+        }
+
+        for (size_t i=0;i<rows;++i){
+            det *= mat[i][i];
+        }
+        return det * sign;
+    }
+
+    Matrix<cols, rows, T> transpose() const {
+        Matrix<cols, rows, T> trans;
+        for (size_t i=0;i<rows;++i){
+            for (size_t j=0;j<cols;++j){
+                trans[j][i] = (*this)[i][j];
+            }
+        }
+        return trans;
+    }
+
+    std::optional<Matrix<rows, cols, T>> inverse() const {
+        static_assert(rows == cols, "Must be a square matrix!");
+        Matrix<rows, cols, T> mat = *this;
+        Matrix<rows, cols, T> inv{};
+        for (size_t i=0;i<rows;++i) inv[i][i] = 1;
+        // прямой проход
+        for (size_t i=0;i<rows;++i){    //тут индекс пивота. [i] - просто строки, [i][i] - сам пивот
+            if (mat[i][i] == 0) {
+                bool pivot = false;
+                for (size_t c=i+1;c<rows;++c){
+                    if (mat[c][i] != 0) {
+                        std::swap(mat[i], mat[c]);
+                        std::swap(inv[i], inv[c]);
+                        pivot = true;
+                        break;
+                    }
+                }
+                if (!pivot) return std::nullopt;
+            }
+            for (size_t k=0;k<rows;k++){ // нормализация диагонали
+                mat[i][k] = mat[i][k]/mat[i][i];
+                inv[i][k] = inv[i][k]/mat[i][i];
+            }
+            for (size_t j=i+1;j<rows;++j){  //тут индекс строки под пивотом [j] - просто строки ниже, [j][i] -  точка под пивотом
+                
+
+                double coef = mat[j][i]/mat[i][i];
+                
+                for (size_t k=i;k<rows;k++){ // а вот тут уже обход в сторону
+                    mat[j][k] -= mat[i][k]*coef;
+                    inv[j][k] -= inv[i][k]*coef;
+                }
+            }
+
+        }
+        // обратный проход
+        for (int i=rows-1;i>=0;--i){    //тут индекс пивота. [i] - просто строки, [i][i] - сам пивот
+            for (int j=i-1;j>=0;--j){  //тут индекс строки под пивотом [j] - просто строки ниже, [j][i] -  точка под пивотом
+                double coef = mat[j][i]/mat[i][i];
+                
+                for (size_t k=0;k<rows;k++){ // а вот тут уже обход в сторону
+                    mat[j][k] -= mat[i][k]*coef;
+                    inv[j][k] -= inv[i][k]*coef;
+                }
+            }
+        }
+        return inv;
+    }
 };
 
 #endif // TEMPLATES_H
+

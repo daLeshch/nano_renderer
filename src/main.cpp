@@ -53,9 +53,6 @@ int main(int argc, char **argv)
 
     for (const auto &face : model->render_obj)
     {   
-        // for (auto dot : face){
-        //     dot.rotate(45.0);
-        // }
         int ax = (face[0].x + 1.) * width / 2;
         int ay = (face[0].y + 1.) * height / 2;
         int az = (face[0].z + 1.) * 255 / 2;
@@ -84,4 +81,5 @@ int main(int argc, char **argv)
 
     image.write_tga_file("nano_render_result.tga");
     std::cout << "Render finished!\n";
+    system("pause");
 }
