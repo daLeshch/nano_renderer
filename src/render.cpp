@@ -24,6 +24,27 @@ auto Renderer::barycentric(int ax, int ay, int bx, int by, int cx, int cy, int p
     return vec3d(alpha, beta, gamma);
 }
 
+vec3f Renderer::persp(vec3f face)
+{   
+    float scale = 1.;
+    constexpr double c = 2.; // магическая чиселка показывает как далеко находится плоскость проекции, потом заменится
+    return face * scale /(1-face.z/c);
+}
+
+std::tuple<int,int,int> Renderer::project(vec3f vert, int width, int height)
+{   return    {((vert.x + 1.) * width / 2),
+        (vert.y + 1.) * height / 2,
+        (vert.z + 1.) * 255 / 2};
+}
+
+float Renderer::light(vec3f v0, vec3f v1, vec3f v2)
+{   vec3f light_dir(0, 0, -1);
+    light_dir.normalize();
+    vec3f normal = (v2 - v0) ^ (v1 - v0);
+    normal.normalize();
+    return normal * light_dir;
+}
+
 void Renderer::triangle(int ax, int ay, int az, int bx, int by, int bz, int cx, int cy, int cz, TGAImage &image, TGAColor color, Zbuffer &zbuffer)
 {
     int bb_min_x = std::min(std::min(ax, bx), cx);

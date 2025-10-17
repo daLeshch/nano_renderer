@@ -53,24 +53,13 @@ int main(int argc, char **argv)
 
     for (const auto &face : model->render_obj)
     {   
-        int ax = (face[0].x + 1.) * width / 2;
-        int ay = (face[0].y + 1.) * height / 2;
-        int az = (face[0].z + 1.) * 255 / 2;
+        auto [ax, ay, az] = renderer.project(renderer.persp(face[0]));
 
-        int bx = (face[1].x + 1.) * width / 2;
-        int by = (face[1].y + 1.) * height / 2;
-        int bz = (face[1].z + 1.) * 255 / 2;
+        auto [bx, by, bz] = renderer.project(renderer.persp(face[1]));
+        
+        auto [cx, cy, cz] = renderer.project(renderer.persp(face[2]));
 
-        int cx = (face[2].x + 1.) * width / 2;
-        int cy = (face[2].y + 1.) * height / 2;
-        int cz = (face[2].z + 1.) * 255 / 2;
-
-        vec3f light_dir(0, 0, -1);
-        light_dir.normalize();
-
-        vec3f normal = (face[2] - face[0]) ^ (face[1] - face[0]);
-        normal.normalize();
-        float intensity = normal * light_dir;
+        float intensity = renderer.light(face[0], face[1], face[2]);;
 
         if (intensity > 0)
         {
