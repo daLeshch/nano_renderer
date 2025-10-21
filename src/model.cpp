@@ -3,12 +3,14 @@
 #include <string>
 #include <sstream>
 #include <vector>
+#include <tuple>
 #include "templates.h"
 
 class Model3D
 {
 public:
     std::vector<std::vector<vec3f>> render_obj;
+    vec3f max_coord{0., 0., 0.};
     Model3D(const std::string &filename, const int &width, const int &height) : vertexes_(), faces_()
     {
         std::string s;
@@ -58,8 +60,14 @@ public:
             render_obj.push_back(new_face);
         }
 
+        for (const auto& v : vertexes_) {
+            max_coord[0] = std::max(max_coord[0], std::abs(v.x));
+            max_coord[1] = std::max(max_coord[1], std::abs(v.y));
+            max_coord[2] = std::max(max_coord[2], std::abs(v.z));
+        }
         obj.close();
-        std::cout << "Reading finished!" << "\n";
+        std::cout << "max coords: " << max_coord[0] << "   " << max_coord[1] << "   " << max_coord[2] << "\n";
+        std::cout << "Reading finished!32" << "\n";
     };
     ~Model3D() {
     };

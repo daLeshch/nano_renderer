@@ -6,7 +6,7 @@
 #include <array>
 #include <initializer_list>
 #include <cmath>
-#include "../lib/tgaimage.h"
+#include "tgaimage.h"
 
 // TODO: реализация стандартной структуры для квадратных матриц(максимум нужно 4х4) со следующими операторами и методами: умножение, сложение, инверсия.
 
@@ -51,7 +51,7 @@ struct vec // Структура для работы с 2D/3D/4D вектора�
             raw[i] = 0;
         
         if (N == 3) {
-            w = std::nan("");
+            w = 1;
         }
         else if (N == 2) {
             z = std::nan("");
@@ -426,6 +426,9 @@ struct Matrix
         return inv;
     }
 };
+
+typedef Matrix<3, 3> mat3;
+typedef Matrix<4, 4, float> mat4;
 
 #endif // TEMPLATES_H
 
