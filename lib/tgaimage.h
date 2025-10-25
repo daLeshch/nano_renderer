@@ -38,10 +38,14 @@ struct TGAImage {
     void set(const int x, const int y, const TGAColor &c);
     int width()  const;
     int height() const;
+    const std::uint8_t* framebuffer_ptr() const;
+    const std::uint8_t get_bpp() const;
+    void clear();
 private:
     bool   load_rle_data(std::ifstream &in);
     bool unload_rle_data(std::ofstream &out) const;
     int w = 0, h = 0;
     std::uint8_t bpp = 0;
     std::vector<std::uint8_t> data = {};
+    std::vector<std::uint8_t> flipped_data = {};
 };

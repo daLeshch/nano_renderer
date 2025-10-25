@@ -199,3 +199,19 @@ int TGAImage::width() const {
 int TGAImage::height() const {
     return h;
 }
+
+
+const std::uint8_t *TGAImage::framebuffer_ptr() const
+{
+    return data.data();
+}
+
+const std::uint8_t TGAImage::get_bpp() const
+{
+    return bpp;
+}
+
+void TGAImage::clear()
+{
+    std::fill(data.begin(), data.end(), 0);
+}

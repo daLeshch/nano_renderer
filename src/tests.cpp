@@ -1,7 +1,7 @@
 #include <iostream>
 #include <cmath>
 #include <array>
-#include "templates.h"
+#include "math_core.h"
 
 using namespace std;
 
@@ -104,6 +104,42 @@ int main() {
         for(int j=0;j<3;++j) rotated_v3[i] += rot3[i][j] * v3[j];
     }
     cout << "rotated vec3: (" << rotated_v3[0] << ", " << rotated_v3[1] << ", " << rotated_v3[2] << ")\n\n";
+
+    vec4d vector1(1, 2, 3, 4);
+    cout << "orig vec: " << vector1.x <<  ", " << vector1.y <<  ", " <<vector1.z <<  ", " << vector1.w << "\n";
+    vector1 = m4b * vector1;
+    cout << "matrix: " << "\n";
+    printMatrix(m4b);
+    cout << "mult vec: " << vector1.x <<  ", " << vector1.y <<  ", " <<vector1.z <<  ", " << vector1.w << "\n";
+
+    
+// orig: 0.103434,0.63749,0.102854
+// after view: 0.103434,0.63749,0.102854,0.691438
+// after persp: 0.103434,0.63749,0.102854,0.588584
+// orig: 0.120409,0.670105,0.118388
+// after view: 0.120409,0.670105,0.118388,0.644836
+// after persp: 0.120409,0.670105,0.118388,0.526448
+// orig: 0.113204,0.661161,0.119513
+// after view: 0.113204,0.661161,0.119513,0.641461
+// after persp: 0.113204,0.661161,0.119513,0.521948
+// input screen: 0.103434,0.63749,0.102854
+// output screen: -4.73921e+08,-1.55697e+08,140.614
+// input screen: 0.120409,0.670105,0.118388
+// output screen: -4.81212e+08,-1.41689e+08,142.594
+// input screen: 0.113204,0.661161,0.119513
+// output screen: -4.78117e+08,-1.4553e+08,142.738
+
+// screen matrix:
+// 400 0 0 400
+// 0 -400 0 400
+// 0 0 127.5 127.5
+// 0 0 0 1
+
+
+
+
+
+
 
 
     cout << "Press Enter to exit...";

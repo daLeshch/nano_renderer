@@ -1,6 +1,16 @@
 #include "render.h"
 
-
+template <size_t N>
+void printMatrix(const Matrix<N, N, float> &m)
+{
+    for (int i = 0; i < N; ++i)
+    {
+        for (int j = 0; j < N; ++j)
+            std::cout << m[i][j] << " ";
+        std::cout << "\n";
+    }
+    std::cout << "\n";
+}
 
 Renderer::Renderer()
 {
@@ -16,38 +26,65 @@ auto Renderer::barycentric(int ax, int ay, int bx, int by, int cx, int cy, int p
     if (std::abs(triangle_sq) < 1e-6)
         return vec3d(-1, -1, -1);
 
-    double alpha = square(px, py, bx, by, cx, cy ) / triangle_sq;
-    double beta = square(ax, ay, px, py, cx, cy ) / triangle_sq;
-    double gamma = square(ax, ay, bx, by, px, py )  / triangle_sq;
+    double alpha = square(px, py, bx, by, cx, cy) / triangle_sq;
+    double beta = square(ax, ay, px, py, cx, cy) / triangle_sq;
+    double gamma = square(ax, ay, bx, by, px, py) / triangle_sq;
 
     return vec3d(alpha, beta, gamma);
 }
 
-
-std::tuple<int,int,int> Renderer::project(vec3f vert, int width, int height)
-{   return    {((vert.x + 1.) * width / 2),
-        (vert.y + 1.) * height / 2,
-        (vert.z + 1.) * 255 / 2};
+std::tuple<int, int, int> Renderer::project(vec3f vert, int width, int height)
+{
+    return {((vert.x + 1.) * width / 2),
+            (vert.y + 1.) * height / 2,
+            (vert.z + 1.) * 255 / 2};
 }
 
 float Renderer::light(vec3f v0, vec3f v1, vec3f v2)
-{   vec3f light_dir(0, 0, -1);
+{
+    vec3f light_dir(0, 0, -1);
     light_dir.normalize();
     vec3f normal = (v2 - v0) ^ (v1 - v0);
     normal.normalize();
     return normal * light_dir;
 }
 
-vec3f Renderer::normilize(const vec3f &vertex, const vec3f& max_coord)
-{   
-    float max_val = std::max({std::abs(max_coord.x), std::abs(max_coord.y), std::abs(max_coord.z)});
-    vec3f nv = vertex;
-    nv.x /= max_val;
-    nv.y /= max_val;
-    nv.z /= max_val;
-    return nv;
+void Renderer::render_model(const Model3D &model, Camera &camera, Zbuffer &buffer, TGAImage &image)
+{
+    for (const auto &face : model.render_obj)
+    {
+
+        auto nf0 = camera.view_persp(face[0]);
+        auto nf1 = camera.view_persp(face[1]);
+        auto nf2 = camera.view_persp(face[2]);
+
+        float intensity = light(nf0, nf1, nf2);
+
+        auto [ax, ay, az] = camera.screen(nf0);
+        auto [bx, by, bz] = camera.screen(nf1);
+        auto [cx, cy, cz] = camera.screen(nf2);
+
+        // std::cout << "after project: " << ax << ", " << ay << ", " << az << "\n";
+
+        // корректим точки чтобы не выходили за экран
+        ax = std::clamp(ax, 0, width - 1);
+        ay = std::clamp(ay, 0, height - 1);
+        bx = std::clamp(bx, 0, width - 1);
+        by = std::clamp(by, 0, height - 1);
+        cx = std::clamp(cx, 0, width - 1);
+        cy = std::clamp(cy, 0, height - 1);
+
+        if (intensity > 0)
+        {
+            TGAColor actual_color = {intensity * 255, intensity * 255, intensity * 255, 255};
+            triangle(ax, ay, az, bx, by, bz, cx, cy, cz, image, actual_color, buffer, width, height);
+        }
+    }
 }
 
+void Renderer::clear()
+{
+}
 
 void Renderer::triangle(int ax, int ay, int az, int bx, int by, int bz, int cx, int cy, int cz, TGAImage &image, TGAColor color, Zbuffer &zbuffer, int width, int height)
 {
@@ -56,35 +93,31 @@ void Renderer::triangle(int ax, int ay, int az, int bx, int by, int bz, int cx, 
     int bb_max_x = std::max(std::max(ax, bx), cx);
     int bb_max_y = std::max(std::max(ay, by), cy);
     double triangle_sq = square(ax, ay, bx, by, cx, cy);
-    
+
     if (triangle_sq < 1)
-    return;
+        return;
 
-    if (bb_max_x < 0 || bb_max_y < 0 || bb_min_x >= width || bb_min_y >= height) return;
-
-    // // корректим границы бокса чтобы не выходили за экран
-    // bb_min_x = std::max(0, bb_min_x);
-    // bb_min_y = std::max(0, bb_min_y);
-    // bb_max_x = std::min(width-1, bb_max_x);
-    // bb_max_y = std::min(height-1, bb_max_y);
+    if (bb_max_x < 0 || bb_max_y < 0 || bb_min_x >= width || bb_min_y >= height)
+        return;
 
 #pragma omp parallel for
     for (int x = bb_min_x; x <= bb_max_x; x++)
     {
         // std::cout << "its x: " << x << "\n";
         for (int y = bb_min_y; y <= bb_max_y; y++)
-        {   
-            if (x >= 0 && x < width && y >= 0 && y < height){ // на всякий случай проверяем точно ли все в границах
+        {
+            if (x >= 0 && x < width && y >= 0 && y < height)
+            { // на всякий случай проверяем точно ли все в границах
                 auto bary = barycentric(ax, ay, bx, by, cx, cy, x, y);
-                
-                unsigned char z = static_cast<unsigned char>(bary[0] * az + bary[1] * bz + bary[2] * cz);
-                
+
+                double z = static_cast<double>(bary[0] * az + bary[1] * bz + bary[2] * cz);
+
                 if (bary[0] < 0 || bary[1] < 0 || bary[2] < 0)
-                continue;
-                
+                    continue;
+
                 // std::cout << "x: " << x << " y: " << y << " depth: " << z << "\n";
                 double prev_z = zbuffer.get(x, y);
-                
+
                 if (prev_z < z)
                 {
                     zbuffer.set(x, y, z);
@@ -129,7 +162,7 @@ double Renderer::square(int ax, int ay, int bx, int by, int cx, int cy)
     return ((bx - ax) * (cy - ay) - (cx - ax) * (by - ay)) * 0.5;
 }
 
-Zbuffer::Zbuffer(int swidth, int sheight) : width(swidth), height(sheight), depth_map((width * height)+width, -std::numeric_limits<double>::infinity())
+Zbuffer::Zbuffer(int swidth, int sheight) : width(swidth), height(sheight), depth_map((width * height) + width, -std::numeric_limits<double>::infinity())
 {
     std::cout << "Zbuffer size is: " << depth_map.size() << "\n";
 }
@@ -138,8 +171,13 @@ Zbuffer::~Zbuffer()
 {
 }
 
+void Zbuffer::clear()
+{
+    std::fill(depth_map.begin(), depth_map.end(), -std::numeric_limits<float>::infinity());
+}
+
 void Zbuffer::set(int x, int y, double z)
-{   
+{
     // std::cout << "Trying to set: : " << y * width + x << "with: " << z << "\n";
     depth_map[y * width + x] = z;
 }
@@ -150,120 +188,6 @@ double Zbuffer::get(int x, int y)
     return depth_map[y * width + x];
 }
 
-bool Viewport::init(int width, int height)
-{    //Initialization flag
-    bool success = true;
-
-    //Initialize SDL
-    if( SDL_Init( SDL_INIT_VIDEO ) < 0 )
-    {
-        printf( "SDL could not initialize! SDL_Error: %s\n", SDL_GetError() );
-        success = false;
-    }
-    else
-    {
-        //Create window
-        gWindow = SDL_CreateWindow( "SDL Tutorial",  width, height, SDL_WINDOW_RESIZABLE);
-        if( gWindow == NULL )
-        {
-            printf( "Window could not be created! SDL_Error: %s\n", SDL_GetError() );
-            success = false;
-        }
-        else
-        {
-            //Get window surface
-            gScreenSurface = SDL_GetWindowSurface( gWindow );
-        }
-    }
-
-    return success;
-}
-
-bool Viewport::load_media(const char *media)
-{
-     //Loading success flag
-    bool success = true;
-
-    //Load splash image
-    gHelloWorld = SDL_LoadBMP( media );
-    if( gHelloWorld == NULL )
-    {
-        printf( "Unable to load image %s! SDL Error: %s\n", media, SDL_GetError() );
-        success = false;
-    }
-
-    return success;
-}
-
-void Viewport::close()
-{
-    //Deallocate surface
-    SDL_DestroySurface( gHelloWorld );
-    gHelloWorld = NULL;
-
-    //Destroy window
-    SDL_DestroyWindow( gWindow );
-    gWindow = NULL;
-
-    //Quit SDL subsystems
-    SDL_Quit();
-}
-
-void Viewport::create(const char *media, int width, int height)
-{
-        //Start up SDL and create window
-    if( !init(width, height) )
-    {
-        printf( "Failed to initialize!\n" );
-    }
-    else
-    {
-        //Load media
-        if( !load_media(media) )
-        {
-            printf( "Failed to load media!\n" );
-        }
-        else
-        {
-            //Apply the image
-            SDL_BlitSurface( gHelloWorld, NULL, gScreenSurface, NULL );
-        }
-    }
-}
-
-void Viewport::showImage(TGAImage &image, int width, int height)
-{
-    // Создаем окно
-    if (!init(width, height)) return;
-
-    // Получаем указатель на пиксели окна
-    SDL_LockSurface(gScreenSurface); // блокируем surface для записи
-    uint32_t* screenPixels = (uint32_t*)gScreenSurface->pixels;
-
-    for (int y = 0; y < height; ++y) {
-        for (int x = 0; x < width; ++x) {
-            TGAColor c = image.get(x, height - 1 - y); // берём снизу-вверх
-            screenPixels[y * width + x] =
-                (c.bgra[3] << 24) | (c.bgra[2] << 16) | (c.bgra[1] << 8) | c.bgra[0];
-        }
-    }
-
-    SDL_UnlockSurface(gScreenSurface);
-
-    SDL_UpdateWindowSurface(gWindow); // обновляем окно
-
-    // Простейший цикл событий, чтобы окно не закрывалось сразу
-    bool quit = false;
-    SDL_Event e;
-    while (!quit) {
-        while (SDL_PollEvent(&e)) {
-            if (e.type == SDL_EVENT_QUIT) quit = true;
-        }
-        SDL_Delay(16);
-    }
-
-    close();
-}
 Camera::Camera(const vec3f &eye, const vec3f &target, const vec3f &up)
 {
     zax = (eye - target).normalize();
@@ -274,42 +198,60 @@ Camera::Camera(const vec3f &eye, const vec3f &target, const vec3f &up)
         {xax.x, xax.y, xax.z, -(xax * eye)},
         {yax.x, yax.y, yax.z, -(yax * eye)},
         {zax.x, zax.y, zax.z, -(zax * eye)},
-        {0,     0,     0,      1}
-    };
-    persp_matrix = {
-        {(f/aspect), 0, 0, 0},
-        {0, f, 0, 0},
-        {0, 0, (far_clip+near_clip)/(near_clip-far_clip), (2*far_clip*near_clip)/(near_clip-far_clip)},
-        {0, 0, -1, 0}
-    };    
+        {0, 0, 0, 1}};
+
+    // view_matrix = view_matrix.transpose();
+    // std::cout << "view matrix:\n";
+    // printMatrix(view_matrix);
+
     screen_matrix = {
-        {w/2.f, 0, 0, w/2.f},
-        {0, h/2.f, 0, h/2.f},
+        {w / 2.f, 0, 0, w / 2.f},
+        {0, h / 2.f, 0, h / 2.f},
+        {0, 0, 255 / 2.f, 255 / 2.f},
+        {0, 0, 0, 1}};
+    // std::cout << "screen matrix:\n";
+    // printMatrix(screen_matrix);
+    // std::cout << f << "\n";
+    persp_matrix = {
+        {1, 0, 0, 0},
+        {0, 1, 0, 0},
         {0, 0, 1, 0},
-        {0, 0, 0, 1}
-    };
+        {0, 0, -1 / f, 1}};
+    // persp_matrix = {
+    //     {(f/aspect), 0, 0, 0},
+    //     {0, f, 0, 0},
+    //     {0, 0, (far_clip+near_clip)/(near_clip-far_clip), (2*far_clip*near_clip)/(near_clip-far_clip)},
+    //     {0, 0, -1, 0}
+    // };
+    // persp_matrix = {
+    //     {f/aspect, 0, 0, 0},
+    //     {0, f, 0, 0},
+    //     {0, 0, far_clip / (far_clip - near_clip), (-far_clip * near_clip) / (far_clip - near_clip)},
+    //     {0, 0, 1, 0}
+    // };
+
+    // std::cout << "persp matrix:\n";
+    // printMatrix(persp_matrix);
+    // persp_matrix = persp_matrix.transpose();
 }
 
-
-vec3f Camera::view_point(const vec3f &point)
+vec3f Camera::view_persp(const vec3f &point)
 {
     vec4f p = {point.x, point.y, point.z, 1};
+    // std::cout << "orig: " << p.x << "," << p.y << "," << p.z << "\n";
     p = view_matrix * p;
-
-    if (p.w != 0) {
-        p.x /= p.w;
-        p.y /= p.w;
-        p.z /= p.w;
-    }
-
-    vec3f np = {p.x, p.y, p.z};
-    return np;
+    // std::cout << "after view: " << p.x << "," << p.y << "," << p.z << "," << p.w << "\n";
+    p = persp_matrix * p;
+    // std::cout << "after persp: " << p.x << "," << p.y << "," << p.z << "," << p.w << "\n";
+    p = p / p.w;
+    return {p.x, p.y, p.z};
 }
 
-vec3f Camera::persp(vec3f vert)
-{   
-    // float scale = 1.;
-    // constexpr double c = 5.; // магическая чиселка показывает как далеко находится плоскость проекции, потом заменится
-    // return face * scale /(1-face.z/c);
-    return vert;
+std::tuple<int, int, int> Camera::screen(const vec3f &point)
+{
+    vec4f p = {point.x, point.y, point.z, 1};
+    // std::cout << "input screen: " << p.x << "," << p.y << "," << p.z << "\n";
+    p = screen_matrix * p;
+    // std::cout << "output screen: " << p.x << "," << p.y << "," << p.z << "\n";
+    return {p.x, p.y, p.z};
 }

@@ -13,15 +13,18 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(SDL)
 
+set(BIN_DIR "${CMAKE_SOURCE_DIR}/bin")
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${BIN_DIR}")
+
 # Основной исполняемый файл
 add_executable(nanorenderer
     lib/tgaimage.cpp
     lib/tgaimage.h
     src/main.cpp
-    src/model.cpp
+    src/model.h
     src/render.h
     src/render.cpp
-    src/templates.h
+    src/math_core.h
 )
 target_include_directories(nanorenderer PRIVATE
     ${CMAKE_SOURCE_DIR}/src
@@ -29,6 +32,10 @@ target_include_directories(nanorenderer PRIVATE
 )
 
 target_link_libraries(nanorenderer PRIVATE SDL3::SDL3)
+
+if(MSVC)
+    add_compile_definitions(_USE_MATH_DEFINES)
+endif()
 
 # macOS
 if(APPLE)
@@ -50,5 +57,24 @@ if(UNIX AND NOT APPLE)
     target_link_libraries(nanorenderer PRIVATE X11)
 endif()
 
-set(BIN_DIR "${CMAKE_SOURCE_DIR}/bin")
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${BIN_DIR}")
+# # Тесты
+# add_executable(tests
+#     src/tests.cpp
+#     src/math_core.h
+#     # lib/tgaimage.cpp
+#     # lib/tgaimage.h
+#     # src/model.cpp   # если тесты используют модель
+#     # src/render.cpp  # если тесты используют рендер
+#     # src/render.h
+# )
+
+# target_include_directories(tests PRIVATE
+#     ${CMAKE_SOURCE_DIR}/src
+#     ${CMAKE_SOURCE_DIR}/lib
+# )
+
+# set_target_properties(tests PROPERTIES
+#     CXX_STANDARD 20
+#     CXX_STANDARD_REQUIRED ON
+# )
+

@@ -81,4 +81,5 @@ cmake --build .
 ## Вспомогательные материалы
 - [Подробный курс статей о работе 3D графики](https://haqr.eu/)
 - [Веб книга по OpenGL, покрывает много теории](https://learnopengl.com/)
+- [Туториалы по SDL](https://lazyfoo.net/tutorials/SDL/index.php)
 - [Вводный курс по базовой линейной алгебре 3Blue1Brown](https://youtube.com/playlist?list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab&si=Kx5wlbKsYD5zDGR0)
