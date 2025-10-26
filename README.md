@@ -55,7 +55,7 @@ cmake --build . --config release
 # Демо
 
 ## Интерфейс
-![main](./docs/preview/main_window.jpg)
+![main_window](https://github.com/user-attachments/assets/b832df3b-ab10-4f5f-a9c1-474cf450d9a9)
 
 На иллюстрации указано какую модель вызывают кнопки и примерное количество точек в этой модели.
 
@@ -64,7 +64,8 @@ cmake --build . --config release
 В первой версии проекта, с которой была продолжена разработка, у программы была возможность только вывода с фиксированной камеры.
 Результатом работы приложения было сформированное .tga изображение того файла, который лежал в папке с исходником.
 
-![Пример работы первой версии](./docs/preview/legacy_demo.gif)
+![legacy_demo](https://github.com/user-attachments/assets/8608b26b-86f0-4e35-85ea-2d3dc1fb851d)
+
 
 ## Пример работы актуальной версии
 
@@ -72,24 +73,29 @@ cmake --build . --config release
 После закрытия окна вьюпорта также записывается .tga файл, но уже с последней открытой моделью и последним положением камеры.
 Модели представлены разных размеров(по количеству точек), чтобы можно было проверить масштабируемость системы.
 
-![Пример работы второй версии](./docs/preview/demo.gif)
+![demo](https://github.com/user-attachments/assets/6c514798-5728-4873-9be9-5abe3c36135e)
+
 
 ### Примеры работы приложения на разных этапах
 **Отрисовка линий:**
 
-![linear](./docs/preview/lines_draw.jpg)
+![lines_draw](https://github.com/user-attachments/assets/5ed07703-ab4f-43cd-baea-2a024715eae2)
+
 
 ### Заполненные треугольники, упрощенная ортогональная проекция, не просчитывается zbuffer
 
-![filled](./docs/preview/lagacy.jpg)
+![lagacy](https://github.com/user-attachments/assets/ce01597d-1de6-465e-928d-eddb8c62779a)
+
 
 ### Добавлен zbuffer
 
-![zbuffer](./docs/preview/zbuffer.jpg)
+![zbuffer](https://github.com/user-attachments/assets/77d6afa6-9421-4ba5-bf80-08c1fc8c27e0)
+
 
 ### Камера реализует перспективную проекцию
 
-![persp](./docs/preview/persp.jpg)
+![persp](https://github.com/user-attachments/assets/da3a6281-e51a-4a8b-b746-0208e02f3b18)
+
 
 ---
 
