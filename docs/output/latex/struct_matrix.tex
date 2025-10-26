@@ -1,0 +1,283 @@
+\doxysection{Matrix\texorpdfstring{$<$}{<} rows, cols, T \texorpdfstring{$>$}{>} Struct Template Reference}
+\hypertarget{struct_matrix}{}\label{struct_matrix}\index{Matrix$<$ rows, cols, T $>$@{Matrix$<$ rows, cols, T $>$}}
+
+
+Generic matrix template for mathematical and graphics applications.  
+
+
+
+
+{\ttfamily \#include $<$math\+\_\+core.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{struct_matrix_ad2fe28fe340cc80cd236c9545b5884e1}\label{struct_matrix_ad2fe28fe340cc80cd236c9545b5884e1} 
+constexpr {\bfseries Matrix} ()=default
+\begin{DoxyCompactList}\small\item\em Default constructor (zero-\/initialized). \end{DoxyCompactList}\item 
+constexpr \mbox{\hyperlink{struct_matrix_a824ee602216ab27eaa06dc2c34df0b86}{Matrix}} (std\+::initializer\+\_\+list$<$ std\+::initializer\+\_\+list$<$ T $>$ $>$ values)
+\begin{DoxyCompactList}\small\item\em Initialize matrix from a nested initializer list. \end{DoxyCompactList}\item 
+\Hypertarget{struct_matrix_a81a748361d486fee3718e96f59efafb2}\label{struct_matrix_a81a748361d486fee3718e96f59efafb2} 
+constexpr auto {\bfseries operator\mbox{[}$\,$\mbox{]}} (size\+\_\+t row) -\/$>$ std\+::array$<$ T, cols $>$ \&
+\begin{DoxyCompactList}\small\item\em Row access (mutable). \end{DoxyCompactList}\item 
+\Hypertarget{struct_matrix_a6f667dd11575779c7766cedc2f2a6266}\label{struct_matrix_a6f667dd11575779c7766cedc2f2a6266} 
+constexpr auto {\bfseries operator\mbox{[}$\,$\mbox{]}} (size\+\_\+t row) const -\/$>$ const std\+::array$<$ T, cols $>$ \&
+\begin{DoxyCompactList}\small\item\em Row access (const). \end{DoxyCompactList}\item 
+\Hypertarget{struct_matrix_a91b5dda5a9b7e728d6dc4218cc8a703c}\label{struct_matrix_a91b5dda5a9b7e728d6dc4218cc8a703c} 
+constexpr \mbox{\hyperlink{struct_matrix}{Matrix}} \& {\bfseries operator+=} (const T \&scalar)
+\begin{DoxyCompactList}\small\item\em Add scalar to all elements (in-\/place). \end{DoxyCompactList}\item 
+\Hypertarget{struct_matrix_a319c422c49dc410f21382a44d6fb0f9c}\label{struct_matrix_a319c422c49dc410f21382a44d6fb0f9c} 
+constexpr \mbox{\hyperlink{struct_matrix}{Matrix}} \& {\bfseries operator-\/=} (const T \&scalar)
+\begin{DoxyCompactList}\small\item\em Subtract scalar from all elements (in-\/place). \end{DoxyCompactList}\item 
+constexpr \mbox{\hyperlink{struct_matrix}{Matrix}} \& \mbox{\hyperlink{struct_matrix_a333413d267d102ff89a6c3c43d1b5548}{operator\texorpdfstring{$\ast$}{*}=}} (const T \&scalar)
+\begin{DoxyCompactList}\small\item\em Multiply all elements by scalar (in-\/place). \end{DoxyCompactList}\item 
+constexpr \mbox{\hyperlink{struct_matrix}{Matrix}}$<$ rows, cols, T $>$ \mbox{\hyperlink{struct_matrix_a972b88d88831bd6864aee2ff5fced9e7}{operator+=}} (const \mbox{\hyperlink{struct_matrix}{Matrix}}$<$ rows, cols, T $>$ \&other)
+\begin{DoxyCompactList}\small\item\em Add another matrix (in-\/place). \end{DoxyCompactList}\item 
+\Hypertarget{struct_matrix_ab931f7204efe9f7f9ebae8b76cd82e55}\label{struct_matrix_ab931f7204efe9f7f9ebae8b76cd82e55} 
+constexpr \mbox{\hyperlink{struct_matrix}{Matrix}}$<$ rows, cols, T $>$ {\bfseries operator-\/=} (const \mbox{\hyperlink{struct_matrix}{Matrix}}$<$ rows, cols, T $>$ \&other)
+\begin{DoxyCompactList}\small\item\em Subtract another matrix (in-\/place). \end{DoxyCompactList}\item 
+\Hypertarget{struct_matrix_a4d07ef6dc3c6b65b8ad2a9fd6b3514ff}\label{struct_matrix_a4d07ef6dc3c6b65b8ad2a9fd6b3514ff} 
+constexpr \mbox{\hyperlink{struct_matrix}{Matrix}} {\bfseries operator+} (const T \&scalar) const
+\begin{DoxyCompactList}\small\item\em Add scalar to all elements. \end{DoxyCompactList}\item 
+\Hypertarget{struct_matrix_a64a43a46d9cb13b76bdf8ca3448559de}\label{struct_matrix_a64a43a46d9cb13b76bdf8ca3448559de} 
+constexpr \mbox{\hyperlink{struct_matrix}{Matrix}}$<$ rows, cols, T $>$ {\bfseries operator-\/} (const T \&scalar) const
+\begin{DoxyCompactList}\small\item\em Subtract scalar from all elements. \end{DoxyCompactList}\item 
+\Hypertarget{struct_matrix_ad457c05afc4667234d5f9482b66f6fbb}\label{struct_matrix_ad457c05afc4667234d5f9482b66f6fbb} 
+constexpr \mbox{\hyperlink{struct_matrix}{Matrix}}$<$ rows, cols, T $>$ {\bfseries operator\texorpdfstring{$\ast$}{*}} (const T \&scalar) const
+\begin{DoxyCompactList}\small\item\em Multiply all elements by scalar. \end{DoxyCompactList}\item 
+\Hypertarget{struct_matrix_aa64d8877e3f82490780ef88f89463f77}\label{struct_matrix_aa64d8877e3f82490780ef88f89463f77} 
+constexpr \mbox{\hyperlink{struct_matrix}{Matrix}} {\bfseries operator/} (const T \&scalar) const
+\begin{DoxyCompactList}\small\item\em Divide all elements by scalar. \end{DoxyCompactList}\item 
+constexpr \mbox{\hyperlink{struct_matrix}{Matrix}}$<$ rows, cols, T $>$ \mbox{\hyperlink{struct_matrix_a93bacbe51506459e01336eacc78c3049}{operator+}} (const \mbox{\hyperlink{struct_matrix}{Matrix}}$<$ rows, cols, T $>$ \&other) const
+\begin{DoxyCompactList}\small\item\em \doxylink{struct_matrix}{Matrix} addition. \end{DoxyCompactList}\item 
+\Hypertarget{struct_matrix_ab11fefa20774836f74f14760ea984f5d}\label{struct_matrix_ab11fefa20774836f74f14760ea984f5d} 
+constexpr \mbox{\hyperlink{struct_matrix}{Matrix}}$<$ rows, cols, T $>$ {\bfseries operator-\/} (const \mbox{\hyperlink{struct_matrix}{Matrix}}$<$ rows, cols, T $>$ \&other) const
+\begin{DoxyCompactList}\small\item\em \doxylink{struct_matrix}{Matrix} subtraction. \end{DoxyCompactList}\item 
+{\footnotesize template$<$size\+\_\+t other\+Cols$>$ }\\constexpr \mbox{\hyperlink{struct_matrix}{Matrix}}$<$ rows, other\+Cols, T $>$ \mbox{\hyperlink{struct_matrix_a3b5f89349c826920714a4bf4f0ebf5de}{operator\texorpdfstring{$\ast$}{*}}} (const \mbox{\hyperlink{struct_matrix}{Matrix}}$<$ cols, other\+Cols, T $>$ \&rhs) const
+\begin{DoxyCompactList}\small\item\em Matrix-\/matrix multiplication. \end{DoxyCompactList}\item 
+constexpr \mbox{\hyperlink{structvec}{vec}}$<$ T, rows $>$ \mbox{\hyperlink{struct_matrix_ab94b78c743f7169a99dcf0916274614c}{operator\texorpdfstring{$\ast$}{*}}} (const \mbox{\hyperlink{structvec}{vec}}$<$ T, cols $>$ \&vect) const
+\begin{DoxyCompactList}\small\item\em Matrix-\/vector multiplication. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{struct_matrix_a272b4a4b6e0ffcd62dcb9ee88d4324c9}{det}} ()
+\begin{DoxyCompactList}\small\item\em Compute determinant of square matrix. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{struct_matrix}{Matrix}}$<$ cols, rows, T $>$ \mbox{\hyperlink{struct_matrix_ad753d3023389c2499cb3709fd8b92d9e}{transpose}} () const
+\begin{DoxyCompactList}\small\item\em Transpose the matrix (swap rows and columns). \end{DoxyCompactList}\item 
+std\+::optional$<$ \mbox{\hyperlink{struct_matrix}{Matrix}}$<$ rows, cols, T $>$ $>$ \mbox{\hyperlink{struct_matrix_acee4435a0f3cf842c0a4867f5119ba90}{inverse}} () const
+\begin{DoxyCompactList}\small\item\em Compute matrix inverse using Gaussian elimination. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{struct_matrix_a061472683ced9e1d8ae5a77bd441202f}\label{struct_matrix_a061472683ced9e1d8ae5a77bd441202f} 
+std\+::array$<$ std\+::array$<$ T, cols $>$, rows $>$ {\bfseries data} \{\}
+\begin{DoxyCompactList}\small\item\em Internal matrix data. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$size\+\_\+t rows, size\+\_\+t cols, typename T = double$>$\newline
+struct Matrix$<$ rows, cols, T $>$}
+Generic matrix template for mathematical and graphics applications. 
+
+Supports addition, subtraction, scalar and matrix multiplication, determinant, transpose, and inversion operations. 
+\begin{DoxyTemplParams}{Template Parameters}
+{\em rows} & Number of rows. \\
+\hline
+{\em cols} & Number of columns. \\
+\hline
+{\em T} & Data type (default double). \\
+\hline
+\end{DoxyTemplParams}
+
+
+\label{doc-constructors}
+\Hypertarget{struct_matrix_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{struct_matrix_a824ee602216ab27eaa06dc2c34df0b86}\index{Matrix$<$ rows, cols, T $>$@{Matrix$<$ rows, cols, T $>$}!Matrix@{Matrix}}
+\index{Matrix@{Matrix}!Matrix$<$ rows, cols, T $>$@{Matrix$<$ rows, cols, T $>$}}
+\doxysubsubsection{\texorpdfstring{Matrix()}{Matrix()}}
+{\footnotesize\ttfamily \label{struct_matrix_a824ee602216ab27eaa06dc2c34df0b86} 
+template$<$size\+\_\+t rows, size\+\_\+t cols, typename T = double$>$ \\
+\mbox{\hyperlink{struct_matrix}{Matrix}}$<$ rows, cols, T $>$\+::\+Matrix (\begin{DoxyParamCaption}\item[{std\+::initializer\+\_\+list$<$ std\+::initializer\+\_\+list$<$ T $>$ $>$}]{values}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+
+
+Initialize matrix from a nested initializer list. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em values} & List of row data. \\
+\hline
+\end{DoxyParams}
+
+
+\label{doc-func-members}
+\Hypertarget{struct_matrix_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{struct_matrix_a272b4a4b6e0ffcd62dcb9ee88d4324c9}\index{Matrix$<$ rows, cols, T $>$@{Matrix$<$ rows, cols, T $>$}!det@{det}}
+\index{det@{det}!Matrix$<$ rows, cols, T $>$@{Matrix$<$ rows, cols, T $>$}}
+\doxysubsubsection{\texorpdfstring{det()}{det()}}
+{\footnotesize\ttfamily \label{struct_matrix_a272b4a4b6e0ffcd62dcb9ee88d4324c9} 
+template$<$size\+\_\+t rows, size\+\_\+t cols, typename T = double$>$ \\
+double \mbox{\hyperlink{struct_matrix}{Matrix}}$<$ rows, cols, T $>$\+::det (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Compute determinant of square matrix. 
+
+
+\begin{DoxyExceptions}{Exceptions}
+{\em std\+::runtime\+\_\+error} & if not square. \\
+\hline
+\end{DoxyExceptions}
+\begin{DoxyReturn}{Returns}
+Determinant value. 
+\end{DoxyReturn}
+\Hypertarget{struct_matrix_acee4435a0f3cf842c0a4867f5119ba90}\index{Matrix$<$ rows, cols, T $>$@{Matrix$<$ rows, cols, T $>$}!inverse@{inverse}}
+\index{inverse@{inverse}!Matrix$<$ rows, cols, T $>$@{Matrix$<$ rows, cols, T $>$}}
+\doxysubsubsection{\texorpdfstring{inverse()}{inverse()}}
+{\footnotesize\ttfamily \label{struct_matrix_acee4435a0f3cf842c0a4867f5119ba90} 
+template$<$size\+\_\+t rows, size\+\_\+t cols, typename T = double$>$ \\
+std\+::optional$<$ \mbox{\hyperlink{struct_matrix}{Matrix}}$<$ rows, cols, T $>$ $>$ \mbox{\hyperlink{struct_matrix}{Matrix}}$<$ rows, cols, T $>$\+::inverse (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Compute matrix inverse using Gaussian elimination. 
+
+\begin{DoxyVerb}* A = | a11 a12 |
+*     | a21 a22 |
+*
+* A^-1 = (1/det(A)) * |  a22  -a12 |
+*                     | -a21   a11 |
+* \end{DoxyVerb}
+
+
+\begin{DoxyReturn}{Returns}
+Inverse matrix, or std\+::nullopt if not invertible. 
+\end{DoxyReturn}
+\Hypertarget{struct_matrix_a3b5f89349c826920714a4bf4f0ebf5de}\index{Matrix$<$ rows, cols, T $>$@{Matrix$<$ rows, cols, T $>$}!operator\texorpdfstring{$\ast$}{*}@{operator\texorpdfstring{$\ast$}{*}}}
+\index{operator\texorpdfstring{$\ast$}{*}@{operator\texorpdfstring{$\ast$}{*}}!Matrix$<$ rows, cols, T $>$@{Matrix$<$ rows, cols, T $>$}}
+\doxysubsubsection{\texorpdfstring{operator\texorpdfstring{$\ast$}{*}()}{operator*()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \label{struct_matrix_a3b5f89349c826920714a4bf4f0ebf5de} 
+template$<$size\+\_\+t rows, size\+\_\+t cols, typename T = double$>$ \\
+template$<$size\+\_\+t other\+Cols$>$ \\
+\mbox{\hyperlink{struct_matrix}{Matrix}}$<$ rows, other\+Cols, T $>$ \mbox{\hyperlink{struct_matrix}{Matrix}}$<$ rows, cols, T $>$\+::operator\texorpdfstring{$\ast$}{*} (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{struct_matrix}{Matrix}}$<$ cols, other\+Cols, T $>$ \&}]{rhs}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+
+
+Matrix-\/matrix multiplication. 
+
+\begin{DoxyVerb}A = | a11 a12 |    B = | b11 b12 |
+    | a21 a22 |        | b21 b22 |
+
+A * B = | a11*b11 + a12*b21   a11*b12 + a12*b22 |
+        | a21*b11 + a22*b21   a21*b12 + a22*b22 |
+* \end{DoxyVerb}
+ 
+\begin{DoxyTemplParams}{Template Parameters}
+{\em other\+Cols} & Number of columns in right-\/hand matrix. \\
+\hline
+\end{DoxyTemplParams}
+\begin{DoxyReturn}{Returns}
+Resulting matrix. 
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em rhs} & \doxylink{struct_matrix}{Matrix} to multiply by. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{struct_matrix_ab94b78c743f7169a99dcf0916274614c}\index{Matrix$<$ rows, cols, T $>$@{Matrix$<$ rows, cols, T $>$}!operator\texorpdfstring{$\ast$}{*}@{operator\texorpdfstring{$\ast$}{*}}}
+\index{operator\texorpdfstring{$\ast$}{*}@{operator\texorpdfstring{$\ast$}{*}}!Matrix$<$ rows, cols, T $>$@{Matrix$<$ rows, cols, T $>$}}
+\doxysubsubsection{\texorpdfstring{operator\texorpdfstring{$\ast$}{*}()}{operator*()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \label{struct_matrix_ab94b78c743f7169a99dcf0916274614c} 
+template$<$size\+\_\+t rows, size\+\_\+t cols, typename T = double$>$ \\
+\mbox{\hyperlink{structvec}{vec}}$<$ T, rows $>$ \mbox{\hyperlink{struct_matrix}{Matrix}}$<$ rows, cols, T $>$\+::operator\texorpdfstring{$\ast$}{*} (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structvec}{vec}}$<$ T, cols $>$ \&}]{vect}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+
+
+Matrix-\/vector multiplication. 
+
+\begin{DoxyReturn}{Returns}
+Resulting vector. 
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em vect} & Input vector. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{struct_matrix_a333413d267d102ff89a6c3c43d1b5548}\index{Matrix$<$ rows, cols, T $>$@{Matrix$<$ rows, cols, T $>$}!operator\texorpdfstring{$\ast$}{*}=@{operator\texorpdfstring{$\ast$}{*}=}}
+\index{operator\texorpdfstring{$\ast$}{*}=@{operator\texorpdfstring{$\ast$}{*}=}!Matrix$<$ rows, cols, T $>$@{Matrix$<$ rows, cols, T $>$}}
+\doxysubsubsection{\texorpdfstring{operator\texorpdfstring{$\ast$}{*}=()}{operator*=()}}
+{\footnotesize\ttfamily \label{struct_matrix_a333413d267d102ff89a6c3c43d1b5548} 
+template$<$size\+\_\+t rows, size\+\_\+t cols, typename T = double$>$ \\
+\mbox{\hyperlink{struct_matrix}{Matrix}} \& \mbox{\hyperlink{struct_matrix}{Matrix}}$<$ rows, cols, T $>$\+::operator\texorpdfstring{$\ast$}{*}= (\begin{DoxyParamCaption}\item[{const T \&}]{scalar}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+
+
+Multiply all elements by scalar (in-\/place). 
+
+\begin{DoxyVerb}A = | a11 a12 |    k = 3
+    | a21 a22 |
+
+k * A = | 3*a11  3*a12 |
+        | 3*a21  3*a22 |
+* \end{DoxyVerb}
+ \Hypertarget{struct_matrix_a93bacbe51506459e01336eacc78c3049}\index{Matrix$<$ rows, cols, T $>$@{Matrix$<$ rows, cols, T $>$}!operator+@{operator+}}
+\index{operator+@{operator+}!Matrix$<$ rows, cols, T $>$@{Matrix$<$ rows, cols, T $>$}}
+\doxysubsubsection{\texorpdfstring{operator+()}{operator+()}}
+{\footnotesize\ttfamily \label{struct_matrix_a93bacbe51506459e01336eacc78c3049} 
+template$<$size\+\_\+t rows, size\+\_\+t cols, typename T = double$>$ \\
+\mbox{\hyperlink{struct_matrix}{Matrix}}$<$ rows, cols, T $>$ \mbox{\hyperlink{struct_matrix}{Matrix}}$<$ rows, cols, T $>$\+::operator+ (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{struct_matrix}{Matrix}}$<$ rows, cols, T $>$ \&}]{other}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+
+
+\doxylink{struct_matrix}{Matrix} addition. 
+
+\begin{DoxyVerb}A = | a11 a12 |    B = | b11 b12 |
+    | a21 a22 |        | b21 b22 |
+
+C =     | a11+b11  a12+b12 |
+        | a21+b21  a22+b22 |
+* \end{DoxyVerb}
+ \Hypertarget{struct_matrix_a972b88d88831bd6864aee2ff5fced9e7}\index{Matrix$<$ rows, cols, T $>$@{Matrix$<$ rows, cols, T $>$}!operator+=@{operator+=}}
+\index{operator+=@{operator+=}!Matrix$<$ rows, cols, T $>$@{Matrix$<$ rows, cols, T $>$}}
+\doxysubsubsection{\texorpdfstring{operator+=()}{operator+=()}}
+{\footnotesize\ttfamily \label{struct_matrix_a972b88d88831bd6864aee2ff5fced9e7} 
+template$<$size\+\_\+t rows, size\+\_\+t cols, typename T = double$>$ \\
+\mbox{\hyperlink{struct_matrix}{Matrix}}$<$ rows, cols, T $>$ \mbox{\hyperlink{struct_matrix}{Matrix}}$<$ rows, cols, T $>$\+::operator+= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{struct_matrix}{Matrix}}$<$ rows, cols, T $>$ \&}]{other}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+
+
+Add another matrix (in-\/place). 
+
+\begin{DoxyVerb}A = | a11 a12 |    B = | b11 b12 |
+    | a21 a22 |        | b21 b22 |
+
+A =     | a11+b11  a12+b12 |
+        | a21+b21  a22+b22 |
+* \end{DoxyVerb}
+ \Hypertarget{struct_matrix_ad753d3023389c2499cb3709fd8b92d9e}\index{Matrix$<$ rows, cols, T $>$@{Matrix$<$ rows, cols, T $>$}!transpose@{transpose}}
+\index{transpose@{transpose}!Matrix$<$ rows, cols, T $>$@{Matrix$<$ rows, cols, T $>$}}
+\doxysubsubsection{\texorpdfstring{transpose()}{transpose()}}
+{\footnotesize\ttfamily \label{struct_matrix_ad753d3023389c2499cb3709fd8b92d9e} 
+template$<$size\+\_\+t rows, size\+\_\+t cols, typename T = double$>$ \\
+\mbox{\hyperlink{struct_matrix}{Matrix}}$<$ cols, rows, T $>$ \mbox{\hyperlink{struct_matrix}{Matrix}}$<$ rows, cols, T $>$\+::transpose (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Transpose the matrix (swap rows and columns). 
+
+\begin{DoxyVerb}* A = | a11 a12 a13 |
+*     | a21 a22 a23 |
+*
+* A^T = | a11 a21 |
+*       | a12 a22 |
+*       | a13 a23 |
+* \end{DoxyVerb}
+
+
+\begin{DoxyReturn}{Returns}
+Transposed matrix. 
+\end{DoxyReturn}
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+D\+:/coding\+\_\+stuff/nano\+\_\+renderer/src/\mbox{\hyperlink{math__core_8h}{math\+\_\+core.\+h}}\end{DoxyCompactItemize}
