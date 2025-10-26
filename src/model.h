@@ -9,7 +9,7 @@
 #include <tuple>
 #include "math_core.h"
 
-/// @brief Contains NORMILIZED!!!!!!! world coordinates
+/// @brief Model(Face(point(xyz), point(xyz), point(xyz)))
 class Model3D
 {
 public:
@@ -77,8 +77,7 @@ public:
         }
 
         obj.close();
-        std::cout << "max coords: " << max_coord[0] << "   " << max_coord[1] << "   " << max_coord[2] << "\n";
-        std::cout << "Reading finished!32" << "\n";
+        std::cout << "Reading finished!" << "\n";
         normilize_();
         // delete ;
     };
@@ -98,6 +97,5 @@ private:
                 vertex.z /= max_val;
             }
         }
-        std::cout << "Vertex coordinates normilized to [-1;1]" << "\n";
     };
 };

@@ -1,0 +1,47 @@
+\doxysection{Renderer Class Reference}
+\hypertarget{class_renderer}{}\label{class_renderer}\index{Renderer@{Renderer}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_renderer_a5e8b96e0e92bc4a3aa4df5a142c0ecf4}\label{class_renderer_a5e8b96e0e92bc4a3aa4df5a142c0ecf4} 
+{\bfseries Renderer} (int w, int h)
+\item 
+\Hypertarget{class_renderer_afe24e26e4660010ed8c51b2d4aed1f3e}\label{class_renderer_afe24e26e4660010ed8c51b2d4aed1f3e} 
+void {\bfseries triangle} (int ax, int ay, int az, int bx, int by, int bz, int cx, int cy, int cz, TGAImage \&image, TGAColor color, \mbox{\hyperlink{class_zbuffer}{Zbuffer}} \&zbuffer, int width, int height)
+\item 
+\Hypertarget{class_renderer_ac1944d672b9555ec5e39e0aaff99048d}\label{class_renderer_ac1944d672b9555ec5e39e0aaff99048d} 
+void {\bfseries line} (int ax, int ay, int bx, int by, TGAImage \&image, TGAColor color)
+\item 
+\Hypertarget{class_renderer_aa17759e827acaeb8dee656ba3a47f5ec}\label{class_renderer_aa17759e827acaeb8dee656ba3a47f5ec} 
+std\+::tuple$<$ int, int, int $>$ {\bfseries project} (vec3f vert, int width=800, int height=800)
+\item 
+\Hypertarget{class_renderer_addab4174c291c8b5376a49a72d9a3d90}\label{class_renderer_addab4174c291c8b5376a49a72d9a3d90} 
+float {\bfseries light} (vec3f v0, vec3f v1, vec3f v2)
+\item 
+\Hypertarget{class_renderer_a7d48ff4c14dbbd078a2157d46d978c8c}\label{class_renderer_a7d48ff4c14dbbd078a2157d46d978c8c} 
+void {\bfseries render\+\_\+model} (const \mbox{\hyperlink{class_model3_d}{Model3D}} \&model, \mbox{\hyperlink{struct_camera}{Camera}} \&camera, \mbox{\hyperlink{class_zbuffer}{Zbuffer}} \&buffer, TGAImage \&image)
+\item 
+\Hypertarget{class_renderer_ac46720b3fc0dbb2fc37674766490a8c4}\label{class_renderer_ac46720b3fc0dbb2fc37674766490a8c4} 
+void {\bfseries clear} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_renderer_a7390c2678eda6578379edb6d2d0767a7}\label{class_renderer_a7390c2678eda6578379edb6d2d0767a7} 
+static auto {\bfseries barycentric} (int ax, int ay, int bx, int by, int cx, int cy, int px, int py) -\/$>$ vec3d
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_renderer_a15d70054c4cc503d73a85adbde3d6e3e}\label{class_renderer_a15d70054c4cc503d73a85adbde3d6e3e} 
+int {\bfseries width}
+\item 
+\Hypertarget{class_renderer_ac5c41bea3debfd191abd29b3aa209960}\label{class_renderer_ac5c41bea3debfd191abd29b3aa209960} 
+int {\bfseries height}
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+D\+:/coding\+\_\+stuff/nano\+\_\+renderer/src/render.\+h\item 
+D\+:/coding\+\_\+stuff/nano\+\_\+renderer/src/render.\+cpp\end{DoxyCompactItemize}

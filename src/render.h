@@ -25,18 +25,14 @@ private:
     std::vector<double> depth_map;
 };
 
-
 struct Camera
 {
     Camera() {};
     Camera(const vec3f &eye, const vec3f &target, const vec3f &up);
-    // Camera(const vec3f& eye, const vec3f& target, const vec3f& up, int width = 800, int height = 800);
-
     vec3f xax;
     vec3f yax;
     vec3f zax;
-    // float f = 1/tan(35/2);// фокусное расстояние камеры, пока фиксированное будет
-    float f = 3; // фокусное расстояние камеры, пока фиксированное будет
+    float f = 3;
     float near_clip = 0.1;
     float far_clip = 10.;
 
@@ -50,7 +46,6 @@ struct Camera
     mat4 ortho_matrix;
 
     vec3f view_persp(const vec3f &point);
-    // void persp(const vec3f &point);
     std::tuple<int, int, int> screen(const vec3f &point);
 
     ~Camera() {};

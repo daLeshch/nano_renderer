@@ -1,17 +1,5 @@
 #include "render.h"
 
-template <size_t N>
-void printMatrix(const Matrix<N, N, float> &m)
-{
-    for (int i = 0; i < N; ++i)
-    {
-        for (int j = 0; j < N; ++j)
-            std::cout << m[i][j] << " ";
-        std::cout << "\n";
-    }
-    std::cout << "\n";
-}
-
 Renderer::Renderer()
 {
 }
@@ -64,9 +52,6 @@ void Renderer::render_model(const Model3D &model, Camera &camera, Zbuffer &buffe
         auto [bx, by, bz] = camera.screen(nf1);
         auto [cx, cy, cz] = camera.screen(nf2);
 
-        // std::cout << "after project: " << ax << ", " << ay << ", " << az << "\n";
-
-        // корректим точки чтобы не выходили за экран
         ax = std::clamp(ax, 0, width - 1);
         ay = std::clamp(ay, 0, height - 1);
         bx = std::clamp(bx, 0, width - 1);
@@ -103,11 +88,10 @@ void Renderer::triangle(int ax, int ay, int az, int bx, int by, int bz, int cx, 
 #pragma omp parallel for
     for (int x = bb_min_x; x <= bb_max_x; x++)
     {
-        // std::cout << "its x: " << x << "\n";
         for (int y = bb_min_y; y <= bb_max_y; y++)
         {
             if (x >= 0 && x < width && y >= 0 && y < height)
-            { // на всякий случай проверяем точно ли все в границах
+            {
                 auto bary = barycentric(ax, ay, bx, by, cx, cy, x, y);
 
                 double z = static_cast<double>(bary[0] * az + bary[1] * bz + bary[2] * cz);
@@ -115,7 +99,6 @@ void Renderer::triangle(int ax, int ay, int az, int bx, int by, int bz, int cx, 
                 if (bary[0] < 0 || bary[1] < 0 || bary[2] < 0)
                     continue;
 
-                // std::cout << "x: " << x << " y: " << y << " depth: " << z << "\n";
                 double prev_z = zbuffer.get(x, y);
 
                 if (prev_z < z)
@@ -164,7 +147,6 @@ double Renderer::square(int ax, int ay, int bx, int by, int cx, int cy)
 
 Zbuffer::Zbuffer(int swidth, int sheight) : width(swidth), height(sheight), depth_map((width * height) + width, -std::numeric_limits<double>::infinity())
 {
-    std::cout << "Zbuffer size is: " << depth_map.size() << "\n";
 }
 
 Zbuffer::~Zbuffer()
@@ -178,13 +160,11 @@ void Zbuffer::clear()
 
 void Zbuffer::set(int x, int y, double z)
 {
-    // std::cout << "Trying to set: : " << y * width + x << "with: " << z << "\n";
     depth_map[y * width + x] = z;
 }
 
 double Zbuffer::get(int x, int y)
 {
-    // std::cout << "Trying to get: : " << y * width + x << "\n";
     return depth_map[y * width + x];
 }
 
@@ -200,49 +180,24 @@ Camera::Camera(const vec3f &eye, const vec3f &target, const vec3f &up)
         {zax.x, zax.y, zax.z, -(zax * eye)},
         {0, 0, 0, 1}};
 
-    // view_matrix = view_matrix.transpose();
-    // std::cout << "view matrix:\n";
-    // printMatrix(view_matrix);
-
     screen_matrix = {
         {w / 2.f, 0, 0, w / 2.f},
         {0, h / 2.f, 0, h / 2.f},
         {0, 0, 255 / 2.f, 255 / 2.f},
         {0, 0, 0, 1}};
-    // std::cout << "screen matrix:\n";
-    // printMatrix(screen_matrix);
-    // std::cout << f << "\n";
+
     persp_matrix = {
         {1, 0, 0, 0},
         {0, 1, 0, 0},
         {0, 0, 1, 0},
         {0, 0, -1 / f, 1}};
-    // persp_matrix = {
-    //     {(f/aspect), 0, 0, 0},
-    //     {0, f, 0, 0},
-    //     {0, 0, (far_clip+near_clip)/(near_clip-far_clip), (2*far_clip*near_clip)/(near_clip-far_clip)},
-    //     {0, 0, -1, 0}
-    // };
-    // persp_matrix = {
-    //     {f/aspect, 0, 0, 0},
-    //     {0, f, 0, 0},
-    //     {0, 0, far_clip / (far_clip - near_clip), (-far_clip * near_clip) / (far_clip - near_clip)},
-    //     {0, 0, 1, 0}
-    // };
-
-    // std::cout << "persp matrix:\n";
-    // printMatrix(persp_matrix);
-    // persp_matrix = persp_matrix.transpose();
 }
 
 vec3f Camera::view_persp(const vec3f &point)
 {
     vec4f p = {point.x, point.y, point.z, 1};
-    // std::cout << "orig: " << p.x << "," << p.y << "," << p.z << "\n";
     p = view_matrix * p;
-    // std::cout << "after view: " << p.x << "," << p.y << "," << p.z << "," << p.w << "\n";
     p = persp_matrix * p;
-    // std::cout << "after persp: " << p.x << "," << p.y << "," << p.z << "," << p.w << "\n";
     p = p / p.w;
     return {p.x, p.y, p.z};
 }
@@ -250,8 +205,6 @@ vec3f Camera::view_persp(const vec3f &point)
 std::tuple<int, int, int> Camera::screen(const vec3f &point)
 {
     vec4f p = {point.x, point.y, point.z, 1};
-    // std::cout << "input screen: " << p.x << "," << p.y << "," << p.z << "\n";
     p = screen_matrix * p;
-    // std::cout << "output screen: " << p.x << "," << p.y << "," << p.z << "\n";
     return {p.x, p.y, p.z};
 }

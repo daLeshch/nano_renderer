@@ -16,7 +16,6 @@ FetchContent_MakeAvailable(SDL)
 set(BIN_DIR "${CMAKE_SOURCE_DIR}/bin")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${BIN_DIR}")
 
-# Основной исполняемый файл
 add_executable(nanorenderer
     lib/tgaimage.cpp
     lib/tgaimage.h
@@ -33,11 +32,16 @@ target_include_directories(nanorenderer PRIVATE
 
 target_link_libraries(nanorenderer PRIVATE SDL3::SDL3)
 
+add_custom_command(TARGET nanorenderer POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        "$<TARGET_FILE:SDL3::SDL3>"
+        "$<TARGET_FILE_DIR:nanorenderer>"
+)
+
 if(MSVC)
     add_compile_definitions(_USE_MATH_DEFINES)
 endif()
 
-# macOS
 if(APPLE)
     find_library(COCOA_LIBRARY Cocoa)
     find_library(IOKIT_LIBRARY IOKit)
@@ -51,30 +55,23 @@ if(APPLE)
     )
 endif()
 
-# Linux
 if(UNIX AND NOT APPLE)
     find_package(X11 REQUIRED)
     target_link_libraries(nanorenderer PRIVATE X11)
 endif()
 
-# # Тесты
-# add_executable(tests
-#     src/tests.cpp
-#     src/math_core.h
-#     # lib/tgaimage.cpp
-#     # lib/tgaimage.h
-#     # src/model.cpp   # если тесты используют модель
-#     # src/render.cpp  # если тесты используют рендер
-#     # src/render.h
-# )
+add_executable(tests
+    src/tests.cpp
+    src/math_core.h
+)
 
-# target_include_directories(tests PRIVATE
-#     ${CMAKE_SOURCE_DIR}/src
-#     ${CMAKE_SOURCE_DIR}/lib
-# )
+target_include_directories(tests PRIVATE
+    ${CMAKE_SOURCE_DIR}/src
+    ${CMAKE_SOURCE_DIR}/lib
+)
 
-# set_target_properties(tests PROPERTIES
-#     CXX_STANDARD 20
-#     CXX_STANDARD_REQUIRED ON
-# )
+set_target_properties(tests PROPERTIES
+    CXX_STANDARD 20
+    CXX_STANDARD_REQUIRED ON
+)
 

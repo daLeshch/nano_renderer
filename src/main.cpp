@@ -21,11 +21,9 @@ namespace fs = std::filesystem;
 
 auto getRoot(fs::path path)
 {
-    std::cout << "current path is: " << path << "\n";
     if (path.filename() == "nano_renderer")
         return path;
     path = path.parent_path();
-    std::cout << "new path is: " << path << "\n";
     return getRoot(path);
 }
 
@@ -65,9 +63,9 @@ int main(int argc, char **argv)
     bool running = true;
     bool rotating = false;
 
-    float phi = 1.5f;    // право-лево, 1.5 == камера фронт
-    float theta = 1.5f;  // верх-низ, 0 == камера топ, 1.5 фронт
-    float radius = 1.0f; // зум
+    float phi = 1.5f;
+    float theta = 1.5f; 
+    float radius = 1.0f;
 
     int lastX = 0, lastY = 0;
 
