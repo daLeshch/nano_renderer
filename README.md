@@ -1,123 +1,121 @@
 # Nano Renderer
-***"What I cannot create, I do not understand"** - R. Feynman*
 
----
+> *"What I cannot create, I do not understand." --- Richard Feynman*
 
-**Nano Renderer** — кроссплатформенный минималистичный софт-рендерер на C++.  
+## Overview
 
-**Цель проекта** — исследовать принципы работы современных графических библиотек и вручную реализовать базовый функционал типичного 3D софта. 
+**Nano Renderer** is a cross‑platform, minimalist software renderer
+written in C++.\
+Its primary goal is to explore how modern graphics pipelines work by
+manually implementing the fundamental components of a typical 3D engine.
 
->На данный момент для фокуса на 3D было сделано два исключения в работе со сторонними не графическими библиотеками:
->- Используется готовое решение по записи в TGA файл
->- Для вывода вьюпорта на экран используется SDL3
+>To keep the focus on 3D rendering itself, two non‑graphics components
+>use existing third‑party solutions: 
+>- SDL3 for displaying the viewport window
+>- A ready‑made TGA writer for image export
 
----
+------------------------------------------------------------------------
 
-## 🚀 Возможности
+## 🚀 Features
 
--  Загрузка `.obj`  
--  Растеризация триангулированных моделей  
--  Превью во вьюпорте  
--  Экспорт изображения в `.tga`
+-   Loading `.obj` models
+-   Rasterizing triangulated meshes
+-   Interactive viewport preview
+-   Exporting rendered images to `.tga`
 
->#### Планируется
-> - Работа с текстурами
-> - Изменяемый источник освещения
-> - Ambient occlusion
-> - Загрузка моделей в других форматах
-> - Экспорт изображений в другие форматы
+### Planned additions
 
+-   Texture support
+-   Adjustable light sources
+-   Ambient occlusion
+-   Additional model formats
+-   Additional image export formats
 
----
+------------------------------------------------------------------------
 
-## ⚙️ Сборка и установка
+## ⚙️ Building
 
-### Требования
-- **C++20**
-- **CMake ≥ 3.21**
-- **Интернет-соединение** (для автоматического скачивания SDL3)
+### Requirements
 
-### Инструкция
+-   **C++20**
+-   **CMake ≥ 3.21**
+-   **Internet connection** (required for automatic SDL3 download)
 
-#### Windows / Linux / macOS
-```bash
+### Build steps (Windows / Linux / macOS)
+
+``` bash
 mkdir build
 cd build
 cmake ..
 cmake --build . --config release
 ```
 
-> После этого в bin\ создастся папка Release в которой появится исполняемый файл и .dll библиотеки.
+After building, a `Release` folder will appear inside `bin/`, containing
+the executable and required libraries.
 
----
+------------------------------------------------------------------------
 
+## 🖥️ Demo
 
-# Демо
-
-## Интерфейс
+### Interface
 ![main_window](https://github.com/user-attachments/assets/b832df3b-ab10-4f5f-a9c1-474cf450d9a9)
 
-На иллюстрации указано какую модель вызывают кнопки и примерное количество точек в этой модели.
+The UI allows switching between included demo models, each with a
+different vertex count for scalability testing.
 
-## Пример работы первой версии
-
-В первой версии проекта, с которой была продолжена разработка, у программы была возможность только вывода с фиксированной камеры.
-Результатом работы приложения было сформированное .tga изображение того файла, который лежал в папке с исходником.
-
+### Early version
 ![legacy_demo](https://github.com/user-attachments/assets/8608b26b-86f0-4e35-85ea-2d3dc1fb851d)
 
+The first prototype could only render from a fixed camera.
+Its output was a single `.tga` image based on the model placed next to
+the program source.
 
-## Пример работы актуальной версии
-
-На данный момент у приложения появился вьюпорт, в котором можно изучить модель, а также посмотреть несколько вариантов приложенных .obj файлов.
-После закрытия окна вьюпорта также записывается .tga файл, но уже с последней открытой моделью и последним положением камеры.
-Модели представлены разных размеров(по количеству точек), чтобы можно было проверить масштабируемость системы.
-
+### Current version
 ![demo](https://github.com/user-attachments/assets/6c514798-5728-4873-9be9-5abe3c36135e)
 
+The application now features: - A realtime viewport
+- Camera controls
+- Selection of several `.obj` samples
+- Automatic `.tga` export based on the last viewed model and camera
+state
 
-### Примеры работы приложения на разных этапах
-**Отрисовка линий:**
+### Examples of application output at different stages
+**Line rendering:**
 
 ![lines_draw](https://github.com/user-attachments/assets/5ed07703-ab4f-43cd-baea-2a024715eae2)
 
-
-### Заполненные треугольники, упрощенная ортогональная проекция, не просчитывается zbuffer
+### Filled triangles, simplified orthographic projection, no z-buffer
 
 ![lagacy](https://github.com/user-attachments/assets/ce01597d-1de6-465e-928d-eddb8c62779a)
 
-
-### Добавлен zbuffer
+### Added z-buffer
 
 ![zbuffer](https://github.com/user-attachments/assets/77d6afa6-9421-4ba5-bf80-08c1fc8c27e0)
 
-
-### Камера реализует перспективную проекцию
+### Camera with perspective projection
 
 ![persp](https://github.com/user-attachments/assets/da3a6281-e51a-4a8b-b746-0208e02f3b18)
+------------------------------------------------------------------------
 
+## 📁 Project Structure
 
----
+-   **src** --- core source code
+-   **assets** --- demo models and example outputs
+-   **bin** --- compiled builds
+-   **lib** --- third‑party libraries (e.g., tgaimage)
+-   [Documentation](https://daleshch.github.io/nano_renderer/)
 
-## 📁Структура проекта
+### Dependencies
 
-- **src** — исходный код проекта
-- **assets** — модели и примеры вывода
-- **bin** —  Скомпилированные демонстрационные сборки
-- **lib** — Сторонние решения (например, tgaimage)
-- [Документация](https://daleshch.github.io/nano_renderer/)
+-   **SDL3** --- viewport window
+-   **tgaimage** --- `.tga` export
+  >All third‑party libraries are downloaded automatically via CMake during the first build.
 
-### Зависимости
+------------------------------------------------------------------------
 
- - SDL3 — окно вьюпорта
- - tgaimage — запись .tga файлов
-> Все сторонние библиотеки автоматически подгружаются через CMake при первой сборке.
+## 📚 Helpful Resources
 
----
-
-## Вспомогательные материалы
-
-- [Подробный курс статей о работе 3D графики](https://haqr.eu/)
-- [Веб книга по OpenGL, покрывает много теории](https://learnopengl.com/)
-- [Туториалы по SDL](https://lazyfoo.net/tutorials/SDL/index.php)
-- [Вводный курс по базовой линейной алгебре 3Blue1Brown](https://youtube.com/playlist?list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab&si=Kx5wlbKsYD5zDGR0)
+- [Detailed article series on 3D rendering fundamentals](https://haqr.eu/)
+- [Comprehensive OpenGL theory book](https://learnopengl.com/)
+- [SDL tutorials](https://lazyfoo.net/tutorials/SDL/index.php)
+- [Linear algebra essentials by 3Blue1Brown](https://youtube.com/playlist?list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab&si=Kx5wlbKsYD5zDGR0)
