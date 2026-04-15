@@ -4,7 +4,7 @@
 
 ## Overview
 
-**Nano Renderer** is a cross‑platform, minimalist software renderer
+**Nano Renderer** is a minimalist software renderer
 written in C++.\
 Its primary goal is to explore how modern graphics pipelines work by
 manually implementing the fundamental components of a typical 3D engine.
